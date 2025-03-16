@@ -37,16 +37,15 @@ inputElements.forEach(element => {
 })
 
 
-if(isValid){
-    formData.status = 'incomplete';
-    displayToUI(formData);
-    formData.id = uuid.v4();
-}});
+formData.status = 'incomplete';
+displayToUI(formData);
 this.reset()
 
 
+});
 
-function displayToUI({id,name, priority, status, date}){
+
+function displayToUI({name, priority, status, date}){
     const tr = document.createElement('tr')
     tr.innerHTML = `
             <td>0</td>
@@ -59,8 +58,6 @@ function displayToUI({id,name, priority, status, date}){
                 <button id="check"><i class="fas fa-check-to-slot"></i></button>
                 <button id="edit"><i class="fas fa-pen-nib"></i></button>
             </td>`
-
-            tr.dataset.id = id;
 
     tbody.appendChild(tr)
 }
