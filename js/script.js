@@ -7,34 +7,46 @@ const date = $('date')
 const tbody = $('tbody')
 
 
-let today = new Date()
-today.toISOString()
-date.value = today.toISOString().slice(0,10) 
+const today = new Date().toISOString().slice(0, 10);
+date.value = today;
+
+
+
+
+
+
 
 form.addEventListener('submit', function(e){
 e.preventDefault()
 const inputElements = ([...this.elements]);
 
 const formData = {}
+
+let isValid = true;
 inputElements.forEach(element => {
    if(element.type !== 'submit'){
+
+      if(element.value === ''){
+             alert('Please fill in all fields');
+             isValid = false;
+             return;
+      }
        formData[element.name] = element.value
    }
   
 })
 
 
-formData.status = 'incomplete';
+if(isValid){
+    formData.status = 'incomplete';
+    displayToUI(formData);
+    formData.id = uuid.v4();
+}});
+this.reset()
 
 
 
-displayToUI(formData)
-
-
-});
-
-
-function displayToUI({name, priority, status, date}){
+function displayToUI({id,name, priority, status, date}){
     const tr = document.createElement('tr')
     tr.innerHTML = `
             <td>0</td>
@@ -47,6 +59,8 @@ function displayToUI({name, priority, status, date}){
                 <button id="check"><i class="fas fa-check-to-slot"></i></button>
                 <button id="edit"><i class="fas fa-pen-nib"></i></button>
             </td>`
+
+            tr.dataset.id = id;
 
     tbody.appendChild(tr)
 }
