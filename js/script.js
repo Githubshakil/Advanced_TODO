@@ -50,16 +50,25 @@ this.reset()
 });
 
 
+window.onload = function(){
+    const tasks = getDataFromLocalStorage();
+    tasks.forEach((task, index) => {
+        displayToUI(task, index + 1)
+    })
+
+}
+
+
 function displayToUI({
     id,
     Name, 
     Priority, 
     status, 
     date
-}){
+}, index){
     const tr = document.createElement('tr')
     tr.innerHTML = `
-            <td>0</td>
+            <td>${index}</td>
             <td>${Name}</td>
             <td>${Priority}</td>
             <td>${status}</td>
