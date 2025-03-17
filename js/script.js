@@ -35,7 +35,13 @@ inputElements.forEach(element => {
 
 if(isValid){
     formData.status = 'incomplete';
+    formData.id = uuid.v4();
     displayToUI(formData);
+    const tasks = getDataFromLocalStorage();
+    tasks.push(formData);
+    setDataToLocalStorage(tasks);
+    
+    
 }
 
 this.reset()
@@ -45,6 +51,7 @@ this.reset()
 
 
 function displayToUI({
+    id,
     Name, 
     Priority, 
     status, 
@@ -63,6 +70,20 @@ function displayToUI({
                 <button id="edit"><i class="fas fa-pen-nib"></i></button>
             </td>
             `
+            tr.dataset.id = id;
 
             tbody.appendChild(tr)
+        }
+
+        function getDataFromLocalStorage(){
+            let tasks = [];
+            const data = localStorage.getItem('tasks');
+            if(data){
+                tasks = JSON.parse(data);
+            }
+            return tasks;
+        }
+
+        function setDataToLocalStorage(tasks){
+            localStorage.setItem('tasks', JSON.stringify(tasks))
         }
