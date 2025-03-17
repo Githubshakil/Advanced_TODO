@@ -50,13 +50,7 @@ this.reset()
 });
 
 
-window.onload = function(){
-    const tasks = getDataFromLocalStorage();
-    tasks.forEach((task, index) => {
-        displayToUI(task, index + 1)
-    })
 
-}
 
 
 function displayToUI({
@@ -95,4 +89,12 @@ function displayToUI({
 
         function setDataToLocalStorage(tasks){
             localStorage.setItem('tasks', JSON.stringify(tasks))
+        }
+
+        window.onload = function(){
+            const tasks = getDataFromLocalStorage();
+            tasks.forEach((task, index) => {
+                displayToUI(task, index + 1)
+            })
+        
         }
