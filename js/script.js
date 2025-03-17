@@ -36,8 +36,8 @@ inputElements.forEach(element => {
 if(isValid){
     formData.status = 'incomplete';
     formData.id = uuid.v4();
-    displayToUI(formData);
     const tasks = getDataFromLocalStorage();
+    displayToUI(formData.tasks.length + 1);
     tasks.push(formData);
     setDataToLocalStorage(tasks);
     
