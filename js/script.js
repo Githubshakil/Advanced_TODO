@@ -62,12 +62,12 @@ function displayToUI({
 }, index){
     const tr = document.createElement('tr')
     tr.innerHTML = `
-            <td>${index}</td>
-            <td>${Name}</td>
-            <td>${Priority}</td>
-            <td>${status}</td>
-            <td>${date}</td>
-            <td>
+            <td id='no'>${index}</td>
+            <td id='name'>${Name}</td>
+            <td id='priority'>${Priority}</td>
+            <td id='status'>${status}</td>
+            <td id='date'>${date}</td>
+            <td id='action'>
                 <button id="delete"><i class="fas fa-trash-can"></i></button>
                 <button id="check"><i class="fas fa-check-to-slot"></i></button>
                 <button id="edit"><i class="fas fa-pen-nib"></i></button>
@@ -91,10 +91,72 @@ function displayToUI({
             localStorage.setItem('tasks', JSON.stringify(tasks))
         }
 
-        window.onload = function(){
+        window.onload = load;
+
+        
+        function load(){
+            tbody.innerHTML = ''
             const tasks = getDataFromLocalStorage();
             tasks.forEach((task, index) => {
                 displayToUI(task, index + 1)
             })
         
         }
+
+
+        // ============================= Action=======================//
+
+
+        tbody.addEventListener('click', function (e){
+            if(e.target.id == 'delete'){
+                const tr = e.target.parentElement.parentElement;
+                const id = tr.dataset.id;
+                tr.remove()
+                let tasks = getDataFromLocalStorage()
+                tasks = tasks.filter((task)=>{
+                    if(task.id !== id){
+                        return task;
+                    }
+                })
+
+                setDataToLocalStorage(tasks)
+                load();
+                
+                
+            }else if(e.target.id == 'check' ){
+                const tr = e.target.parentElement.parentElement;
+                const id = tr.dataset.id;
+                const tds = tr.children;
+                [...tds].forEach(td=>{
+                    if(td.id == 'status'){
+                        let tasks = getDataFromLocalStorage()
+                        tasks = tasks.filter((task)=>{
+                            if(task.id === id){
+                                if(task.status == 'complete'){
+                                    task.status = 'incomplete'
+                                    td.innerHTML = 'incomplete'
+                                }else{
+                                    task.status = 'complete'
+                                    td.innerHTML = 'complete'
+                                }
+                                return task;
+                            }else{
+                                return task;
+                            }
+                        })
+
+
+                        setDataToLocalStorage(tasks)
+
+                        
+                        
+                    }
+                })
+                
+                
+            }else if(e.target.id == 'edit'){
+                console.log('edited');
+                
+            }
+        })
+
