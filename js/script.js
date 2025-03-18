@@ -124,20 +124,28 @@ tbody.addEventListener("click", function (e) {
     const tr = e.target.parentElement.parentElement;
     const id = tr.dataset.id;
     const tds = tr.children;
+    //
+    let nameTd;
+    let newNameField;
+    let priorityTd;
+    let prioritySelect;
+    let 
 
-    [...tds].forEach((td) => {
+    [...tds].forEach(td => {
       if (td.id == "name") {
+        nameTd= td;
         const preName = td.textContent;
         td.innerText = "";
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = preName;
-        td.appendChild(input);
+        newNameField = document.createElement("input");
+        newNameField.type = "text";
+        newNameField.value = preName;
+        td.appendChild(newNameField);
       } else if (td.id == "priority") {
+        priorityTd=td;
         const prePriority = td.textContent;
         td.innerText = "";
-        const select = document.createElement("select");
-        select.innerHTML = `
+        prioritySelect = document.createElement("select");
+        prioritySelect.innerHTML = `
                          
                 <option disabled>Select One</option>
                 <option value="High">High</option>
@@ -147,14 +155,14 @@ tbody.addEventListener("click", function (e) {
                 `;
 
                 if(prePriority==="high"){
-                    select.selectedIndex = 1;
+                  prioritySelect.selectedIndex = 1;
                 }else if(prePriority==="Medium"){
-                    select.selectedIndex = 2;
+                  prioritySelect.selectedIndex = 2;
                 }else if(prePriority==="Low"){
-                    select.selectedIndex = 3;
+                  prioritySelect.selectedIndex = 3;
                 }
 
-        td.appendChild(select);
+        td.appendChild(prioritySelect);
 
 
 
@@ -168,9 +176,19 @@ tbody.addEventListener("click", function (e) {
       } else if (td.id == "action") {
 
         const preButtons = td.innerHTML;
-        td.innerHTML = '<button>Save</button>';
-
-
+        td.innerHTML = '';
+        const saveBtn = document.createElement('button')
+        saveBtn.innerHTML = "<i class='fas fa-sd-card'></i>"
+        saveBtn.addEventListener('click',function (){
+        //name
+        const newName=  newNameField.value;
+        nameTd.innerHTML = newName;
+        //priority
+        const newPriority = prioritySelect.value;
+        priorityTd.innerHTML = newPriority
+        })
+        td.appendChild(saveBtn);
+          
       }
     });
   }
