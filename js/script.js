@@ -155,6 +155,27 @@ function displayToUI({
                 
                 
             }else if(e.target.id == 'edit'){
+                const tr = e.target.parentElement.parentElement;
+                const id = tr.dataset.id;
+                const tds = tr.children;
+                [...tds].forEach(td=>{
+
+                    if(td.id=='name'){
+                       const preName = td.innerHTML
+
+                    }else if(td.id=='priority'){
+                        
+                        
+                    }else if(td.id=='date'){
+                        
+                        
+                    }else if(td.id=='action'){
+
+
+                    }
+                        
+                    
+                })
                 
                 
             }
