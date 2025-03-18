@@ -159,13 +159,18 @@ tbody.addEventListener("click", function (e) {
 
 
       } else if (td.id == "date") {
+          const preDate = td.textContent;
+          td.innerText = "";
         const input = document.createElement("input");
-        input.type = "text";
-        const preDate = td.date;
-        td.innerText = "";
+        input.type = 'date';
         input.value = preDate;
         td.appendChild(date);
       } else if (td.id == "action") {
+
+        const preButtons = td.innerHTML;
+        td.innerHTML = '<button>Save</button>';
+
+
       }
     });
   }
