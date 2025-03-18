@@ -129,11 +129,14 @@ tbody.addEventListener("click", function (e) {
     let newNameField;
     let priorityTd;
     let prioritySelect;
-    let 
+    let dateTd;
+    let dateInputFild;
+    let actionTd;
+    let preButtons;
 
-    [...tds].forEach(td => {
+    [...tds].forEach((td) => {
       if (td.id == "name") {
-        nameTd= td;
+        nameTd = td;
         const preName = td.textContent;
         td.innerText = "";
         newNameField = document.createElement("input");
@@ -141,7 +144,7 @@ tbody.addEventListener("click", function (e) {
         newNameField.value = preName;
         td.appendChild(newNameField);
       } else if (td.id == "priority") {
-        priorityTd=td;
+        priorityTd = td;
         const prePriority = td.textContent;
         td.innerText = "";
         prioritySelect = document.createElement("select");
@@ -154,41 +157,57 @@ tbody.addEventListener("click", function (e) {
                         
                 `;
 
-                if(prePriority==="high"){
-                  prioritySelect.selectedIndex = 1;
-                }else if(prePriority==="Medium"){
-                  prioritySelect.selectedIndex = 2;
-                }else if(prePriority==="Low"){
-                  prioritySelect.selectedIndex = 3;
-                }
+        if (prePriority === "high") {
+          prioritySelect.selectedIndex = 1;
+        } else if (prePriority === "Medium") {
+          prioritySelect.selectedIndex = 2;
+        } else if (prePriority === "Low") {
+          prioritySelect.selectedIndex = 3;
+        }
 
         td.appendChild(prioritySelect);
-
-
-
       } else if (td.id == "date") {
-          const preDate = td.textContent;
-          td.innerText = "";
-        const input = document.createElement("input");
-        input.type = 'date';
-        input.value = preDate;
-        td.appendChild(date);
+        dateTd = td;
+        const preDate = td.textContent;
+        td.innerText = "";
+        dateInputFild = document.createElement("input");
+        dateInputFild.type = "date";
+        dateInputFild.value = preDate;
+        td.appendChild(dateInputFild);
       } else if (td.id == "action") {
+        actionTd = td;
+        preButtons = td.innerHTML;
+        td.innerHTML = "";
+        const saveBtn = document.createElement("button");
+        saveBtn.innerHTML = "<i class='fas fa-sd-card'></i>";
+        saveBtn.addEventListener("click", function () {
+          //name
+          const newName = newNameField.value;
+          nameTd.innerHTML = newName;
+          //priority
+          const newPriority = prioritySelect.value;
+          priorityTd.innerHTML = newPriority;
+          //date
+          const newDate = dateInputFild.value;
+          dateTd.innerHTML = newDate;
 
-        const preButtons = td.innerHTML;
-        td.innerHTML = '';
-        const saveBtn = document.createElement('button')
-        saveBtn.innerHTML = "<i class='fas fa-sd-card'></i>"
-        saveBtn.addEventListener('click',function (){
-        //name
-        const newName=  newNameField.value;
-        nameTd.innerHTML = newName;
-        //priority
-        const newPriority = prioritySelect.value;
-        priorityTd.innerHTML = newPriority
-        })
+          //action buttonn
+          actionTd.innerHTML = preButtons;
+          ///save modified task ifo local storage
+          let tasks = getDataFromLocalStorage();
+          tasks = tasks.filter((task) => {
+            if (task.id === id) {
+              task.Name = newName;
+              task.Priority = newPriority;
+              task.date = newDate;
+              return task;
+            } else {
+              return task;
+            }
+          });
+          setDataToLocalStorage(tasks)
+        });
         td.appendChild(saveBtn);
-          
       }
     });
   }
