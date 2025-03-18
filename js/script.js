@@ -155,7 +155,7 @@ function displayToUI({
                 
                 
             }else if(e.target.id == 'edit'){
-                console.log('edited');
+                
                 
             }
         })
